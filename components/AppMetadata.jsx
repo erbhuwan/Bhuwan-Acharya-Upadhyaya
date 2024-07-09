@@ -1,4 +1,4 @@
-const author = "Bhuwan Acharya Upadhaya";
+const author = "Bhuwan Acharya Upadhyaya";
 const description =
 	"My name is Bhuwan Acharya Upadhyaya, and I am a passionate full-stack web developer based in Pokhara, Nepal. Currently, I am pursuing my Bachelor's Degree in Electronics and Information Engineering at the Institute of Engineering (IoE), Western Regional Campus, located in Pokhara.";
 const url = "https://bhuwan-acharya-upadhyaya.vercel.app/";
