@@ -16,15 +16,14 @@ export function WelcomeSection() {
 
 	let [count, setCount] = useState(0);
 	const [text] = useState([
-		"build responsive web applications",
-		"convert design prototypes into functional websites",
-		"create interactive UI using React",
-		"develop server-side rendering websites using Next.js",
-		"build scalable backend services using NestJS",
+		"build responsive web apps",
+		"convert designs to websites",
+		"create interactive UI with React",
+		"develop SSR websites with Next.js",
+		"build scalable backends with NestJS",
 		"implement RESTful APIs",
 		"optimize web performance and SEO"
-	]);
-	
+	]);	
 
 	const onClick = (e) => scrollToEl(e);
 
@@ -72,7 +71,7 @@ export function WelcomeSection() {
 							>
 								I
 								<span
-									className="absolute flex flex-col transition-all duration-500 ease-in-expo"
+									className="absolute flex flex-col transition-all duration-500 ease-in-expo w-full"
 									style={{
 										top:
 											count === 0
@@ -107,6 +106,25 @@ export function WelcomeSection() {
 							Stick around to see some of my work.
 						</p>
 						<div
+						className="my-2"
+							ref={ref}
+							style={{
+								transform: isInView ? "none" : "translateY(50px)",
+								opacity: isInView ? 1 : 0,
+								transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
+							}}
+						>
+							<Link
+								href="https://drive.google.com/file/d/1YbgWQDO-inVB4JNrAlXQpRnwA-LdcxDb/view?usp=drive_link"
+								target="_blank"
+								tabIndex="0"
+								className="btn"
+								aria-label="Resume"
+							>
+								See my resume
+							</Link>
+						</div>
+						<div
 							ref={ref}
 							style={{
 								transform: isInView ? "none" : "translateY(50px)",
@@ -121,7 +139,7 @@ export function WelcomeSection() {
 								className="btn"
 								aria-label="Latest projects"
 							>
-								See my latest projects
+								My latest projects
 							</Link>
 						</div>
 					</div>
