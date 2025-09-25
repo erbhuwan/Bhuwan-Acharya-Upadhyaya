@@ -115,7 +115,7 @@ export function WelcomeSection() {
 							}}
 						>
 							<Link
-								href="https://drive.google.com/file/d/1YbgWQDO-inVB4JNrAlXQpRnwA-LdcxDb/view?usp=drive_link"
+								href="https://drive.google.com/file/d/1Jx8kKRol9oOqy7C_x3HFF2mzLByFXw6n/view?usp=sharing"
 								target="_blank"
 								tabIndex="0"
 								className="btn"
