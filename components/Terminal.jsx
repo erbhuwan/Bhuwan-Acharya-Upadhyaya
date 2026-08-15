@@ -318,8 +318,6 @@ export function TerminalPortfolio() {
 		}
 	}, [lines]);
 
-	const focusInput = () => inputRef.current?.focus();
-
 	const pushLines = (newLines) => {
 		setLines((prev) => [...prev, ...newLines.map((l) => ({ ...l, id: nextId() }))]);
 	};
@@ -420,7 +418,6 @@ export function TerminalPortfolio() {
 
 	return (
 		<div
-			onClick={focusInput}
 			className="
 				relative mx-auto w-full max-w-3xl overflow-hidden rounded-xl
 				border border-[#FFB000]/15 bg-[#0B0F0C]
@@ -478,6 +475,7 @@ export function TerminalPortfolio() {
 							<input
 								ref={inputRef}
 								value={input}
+								autoFocus
 								onChange={(e) => setInput(e.target.value)}
 								onKeyDown={handleKeyDown}
 								spellCheck={false}
