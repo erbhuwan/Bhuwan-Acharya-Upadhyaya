@@ -12,7 +12,6 @@ export function WelcomeSection() {
 	const ref = useRef(null);
 	const introRef = useRef(null);
 	const isInView = useInView(ref, { once: true });
-	const { scrollToEl } = useScrollTo();
 	const isTabletUp = useMediaQuery("min-width: 768px");
 
 	let [count, setCount] = useState(0);
@@ -25,8 +24,6 @@ export function WelcomeSection() {
 		"integrate third-party services and payments",
 		"deploy production-ready web applications"
 	]);
-
-	const onClick = (e) => scrollToEl(e);
 
 	useEffect(() => {
 		let interval = setInterval(() => {
@@ -135,7 +132,13 @@ export function WelcomeSection() {
 						>
 							<Link
 								href="#terminal-portfolio"
-								onClick={onClick}
+								onClick={(e) => {
+									e.preventDefault();
+									document.getElementById("terminal-portfolio")?.scrollIntoView({
+										behavior: "smooth",
+										block: "start"
+									});
+								}}
 								aria-label="Portfolio Terminal"
 								className="
 		group inline-flex w-fit items-center gap-2
