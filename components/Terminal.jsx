@@ -482,7 +482,7 @@ export function TerminalPortfolio() {
 								onKeyDown={handleKeyDown}
 								spellCheck={false}
 								autoComplete="off"
-								placeholder={booted ? "click to type a command..." : ""}
+								placeholder={booted ? "type a command..." : ""}
 								className="w-full bg-transparent font-mono text-[13px] text-[#FFD27A] placeholder:text-[#B8862F]/40 caret-transparent outline-none sm:text-sm"
 							/>
 							<span

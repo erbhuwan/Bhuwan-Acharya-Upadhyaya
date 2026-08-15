@@ -44,18 +44,25 @@ export function AboutSection() {
 						</p>
 					</div>
 
-					<div className="w-full xl:w-1/2" id="terminal-portfolio" ref={ref}>
-						<motion.div
-							initial={{ opacity: 0, x: 200 }}
-							animate={isInView ? { opacity: 1, x: 0 } : {}}
-							transition={{
-								duration: 0.9,
-								delay: 0.5,
-								ease: [0.17, 0.55, 0.55, 1]
-							}}
-						>
-							{isInView && <TerminalPortfolio />}
-						</motion.div>
+					<div className="relative w-full xl:w-1/2">
+						<div
+							id="terminal-portfolio"
+							className="absolute -top-24 xl:-top-28"
+							aria-hidden="true"
+						/>
+						<div ref={ref}>
+							<motion.div
+								initial={{ opacity: 0, x: 200 }}
+								animate={isInView ? { opacity: 1, x: 0 } : {}}
+								transition={{
+									duration: 0.9,
+									delay: 0.5,
+									ease: [0.17, 0.55, 0.55, 1]
+								}}
+							>
+								{isInView && <TerminalPortfolio />}
+							</motion.div>
+						</div>
 					</div>
 				</div>
 
