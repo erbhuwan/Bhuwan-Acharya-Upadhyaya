@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
 import useSWR from "swr";
 import { ErrorBoundary } from "react-error-boundary";
 import { HeadingDivider, Loader } from "components";

@@ -1,130 +1,155 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { LazyMotion, domAnimation, useInView } from "framer-motion";
 
 const TimeLineData = [
-	{ year: 2024, text: "NextJs and NestJs" },
-	{ year: 2023, text: "Python and Django" },
-	{ year: 2021, text: "React.js" },
-	{ year: 2020, text: "HTML CSS JavaScript and PHP" },
-	{ year: 2019, text: "WordPress" }
+	{
+		period: "2019",
+		title: "Started with WordPress",
+		description:
+			"My programming journey began with WordPress, where I developed my first websites and became interested in how websites work."
+	},
+	{
+		period: "2020",
+		title: "Web Development Foundations",
+		description:
+			"Started working with HTML, CSS, JavaScript and PHP, building a stronger foundation in web development."
+	},
+	{
+		period: "2021",
+		title: "React & Modern Frontend",
+		description:
+			"Moved into React.js and modern frontend development, focusing on reusable components and interactive user interfaces."
+	},
+	{
+		period: "2022",
+		title: "Engineering Journey",
+		description:
+			"Started my Bachelor's degree in Electronics and Communication Engineering while continuing to grow as a software developer."
+	},
+	{
+		period: "2023",
+		title: "Python & Backend Development",
+		description:
+			"Explored Python and Django while becoming increasingly interested in backend development, APIs and server-side systems."
+	},
+	{
+		period: "2024",
+		title: "Full-Stack Development",
+		description:
+			"Expanded into Node.js, NestJS and TypeScript, working across frontend, backend, databases and complete application architecture."
+	},
+	{
+		period: "2025",
+		title: "Building Real-World Systems",
+		description:
+			"Focused on building production-oriented applications involving authentication, payments, background processing, real-time systems and complex business workflows."
+	},
+	{
+		period: "2026 - Present",
+		title: "Software Engineering",
+		description:
+			"Continuing to build scalable systems and real-world products while exploring system design, infrastructure and software engineering practices."
+	}
 ];
 
 export function TimeLine() {
-	/// TODO: Add color mode support
-	const colorMode = "dark";
-	const [, setActiveItem] = useState(0);
-	const carouselRef = useRef(null);
-	// const animRef = useRef(null);
-	const isInView = useInView(carouselRef, { once: true });
-
-	const scroll = (node, left) => {
-		return node.scrollTo({ left, behavior: "smooth" });
-	};
-
-	const handleClick = (e, i) => {
-		e.preventDefault();
-
-		if (carouselRef.current) {
-			const scrollLeft = Math.floor(
-				carouselRef.current.scrollWidth * 0.7 * (i / TimeLineData.length)
-			);
-
-			scroll(carouselRef.current, scrollLeft);
-		}
-	};
-
-	const handleScroll = () => {
-		if (carouselRef.current) {
-			const index = Math.round(
-				(carouselRef.current.scrollLeft / (carouselRef.current.scrollWidth * 0.7)) *
-					TimeLineData.length
-			);
-
-			setActiveItem(index);
-		}
-	};
-
-	useEffect(() => {
-		const handleResize = () => {
-			scroll(carouselRef.current, 0);
-		};
-
-		window.addEventListener("resize", handleResize);
-
-		return () => {
-			window.removeEventListener("resize", handleResize);
-		};
-	}, []);
+	const ref = useRef(null);
+	const isInView = useInView(ref, { once: true, margin: "-100px" });
 
 	return (
 		<LazyMotion features={domAnimation}>
-			<ul
-				ref={carouselRef}
-				onScroll={handleScroll}
-				className="flex flex-row flex-nowrap gap-5 justify-between overflow-x-auto snap-x cursor-pointer hide-scroll-bar"
-			>
-				<>
+			<div ref={ref} className="relative py-8">
+				{/* Timeline line */}
+				<div
+					className="
+						absolute
+						left-[11px]
+						top-0
+						bottom-0
+						w-px
+						bg-current
+						opacity-20
+						md:left-1/2
+						md:-translate-x-1/2
+					"
+				/>
+
+				<div className="flex flex-col gap-12 md:gap-20">
 					{TimeLineData.map((item, index) => {
+						const isLeft = index % 2 === 0;
+
 						return (
-							<li
-								id={`carousel__item-${index}`}
-								key={index}
-								className="flex flex-col gap-3 snap-start w-[calc((100%/2)-30px)] sm:w-1/3 md:w-1/6"
-								onClick={(e) => handleClick(e, index)}
+							<div
+								key={item.period}
+								className={`
+									relative
+									flex
+									items-start
+									pl-10
+									md:pl-0
+									md:w-full
+									${isLeft ? "md:justify-start" : "md:justify-end"}
+								`}
 								style={{
 									transform: isInView
 										? "none"
-										: `${index === 0 ? "translateY(250px)" : `translateY(${200 / index}px)`}`,
+										: `translateY(40px)`,
 									opacity: isInView ? 1 : 0,
-									transition: `all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) ${
-										index === 0 ? 0.5 : 1.05 * index
-									}s`
+									transition:
+										"all 0.7s cubic-bezier(0.17, 0.55, 0.55, 1)",
+									transitionDelay: `${index * 0.12}s`
 								}}
 							>
-								<h3
-									tabIndex="0"
-									aria-label={"What do I do in " + item.year}
-									className="flex items-center gap-4 text-2xl font-bold"
+								{/* Timeline dot */}
+								<div
+									className="
+										absolute
+										left-0
+										top-2
+										flex
+										h-6
+										w-6
+										items-center
+										justify-center
+										rounded-full
+										border
+										border-current
+										bg-background
+										md:left-1/2
+										md:-translate-x-1/2
+										z-1
+									"
 								>
-									{`${item.year}`}
-									<svg
-										width="208"
-										height="6"
-										viewBox="0 0 208 6"
-										xmlns="http://www.w3.org/2000/svg"
-										fill={colorMode === "dark" ? "#fff" : "#232323"}
-									>
-										<path
-											fillRule="evenodd"
-											clipRule="evenodd"
-											d="M2.5 5.5C3.88071 5.5 5 4.38071 5 3V3.5L208 3.50002V2.50002L5 2.5V3C5 1.61929 3.88071 0.5 2.5 0.5C1.11929 0.5 0 1.61929 0 3C0 4.38071 1.11929 5.5 2.5 5.5Z"
-											fillOpacity="0.5"
-										/>
-										<defs>
-											<linearGradient
-												id="paint0_linear"
-												x1="-4.30412e-10"
-												y1="0.5"
-												x2="208"
-												y2="0.500295"
-												gradientUnits="userSpaceOnUse"
-											>
-												<stop stopColor="#fff" />
-												<stop offset="0.79478" stopColor="#fff" stopOpacity="0" />
-											</linearGradient>
-										</defs>
-									</svg>
-								</h3>
-								<p className="tracking-wide " tabIndex="0">
-									{item.text}
-								</p>
-							</li>
+									<div className="h-2 w-2 rounded-full bg-current" />
+								</div>
+
+								{/* Content */}
+								<div
+									className={`
+										w-full
+										md:w-[42%]
+										${isLeft ? "md:text-right" : "md:text-left"}
+									`}
+								>
+									<span className="text-sm font-semibold tracking-widest opacity-50">
+										{item.period}
+									</span>
+
+									<h3 className="mt-1 text-xl font-bold">
+										{item.title}
+									</h3>
+
+									<p className="mt-2 text-sm leading-relaxed opacity-65">
+										{item.description}
+									</p>
+								</div>
+							</div>
 						);
 					})}
-				</>
-			</ul>
+				</div>
+			</div>
 		</LazyMotion>
 	);
 }

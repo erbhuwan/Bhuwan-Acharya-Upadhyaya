@@ -6,6 +6,7 @@ import { LazyMotion, domAnimation, useInView } from "framer-motion";
 import { WelcomeAnimation } from "./IntroAnimation";
 import { useScrollTo } from "hooks";
 import { useMediaQuery } from "utils";
+import { FiExternalLink } from "react-icons/fi";
 
 export function WelcomeSection() {
 	const ref = useRef(null);
@@ -16,14 +17,14 @@ export function WelcomeSection() {
 
 	let [count, setCount] = useState(0);
 	const [text] = useState([
-		"build responsive web apps",
-		"convert designs to websites",
-		"create interactive UI with React",
-		"develop SSR websites with Next.js",
-		"build scalable backends with NestJS",
-		"implement RESTful APIs",
-		"optimize web performance and SEO"
-	]);	
+		"build full-stack web applications",
+		"develop modern interfaces with React",
+		"build scalable backends with Node.js",
+		"create APIs with NestJS and Express",
+		"work with SQL and NoSQL databases",
+		"integrate third-party services and payments",
+		"deploy production-ready web applications"
+	]);
 
 	const onClick = (e) => scrollToEl(e);
 
@@ -55,7 +56,7 @@ export function WelcomeSection() {
 							}}
 						>
 							<p>
-								Hi, I&apos;m <mark>Bhuwan</mark> a <mark>passionate</mark> web developer.
+								Hi, I&apos;m <mark>Bhuwan</mark>, a <mark>Full-Stack Developer.</mark>
 							</p>
 						</h1>
 
@@ -106,7 +107,7 @@ export function WelcomeSection() {
 							Stick around to see some of my work.
 						</p>
 						<div
-						className="my-2"
+							className="my-2"
 							ref={ref}
 							style={{
 								transform: isInView ? "none" : "translateY(50px)",
@@ -115,13 +116,13 @@ export function WelcomeSection() {
 							}}
 						>
 							<Link
-								href="https://drive.google.com/file/d/1Jx8kKRol9oOqy7C_x3HFF2mzLByFXw6n/view?usp=sharing"
+								href="https://drive.google.com/file/d/1dnAPHn3gpQyifeBU6230ILxr2HUNFTt7/view?usp=sharing"
 								target="_blank"
 								tabIndex="0"
-								className="btn"
+								className="btn flex justify-start items-center w-fit gap-2"
 								aria-label="Resume"
 							>
-								See my resume
+								See my resume <FiExternalLink />
 							</Link>
 						</div>
 						<div
@@ -133,13 +134,33 @@ export function WelcomeSection() {
 							}}
 						>
 							<Link
-								href="#projects"
+								href="#terminal-portfolio"
 								onClick={onClick}
-								tabIndex="0"
-								className="btn"
-								aria-label="Latest projects"
+								aria-label="Portfolio Terminal"
+								className="
+		group inline-flex w-fit items-center gap-2
+		rounded-md border border-[#FFB000]/25 bg-[#0B0F0C]
+		px-3.5 py-2 font-mono text-sm text-[#FFB000]
+		transition-colors duration-200
+		hover:border-[#FFB000]/50 hover:bg-[#FFB000]/[0.06] hover:text-[#FFD27A]
+		focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFB000]/40
+			"
 							>
-								My latest projects
+								<style>{`
+				@keyframes link-blink {
+					0%, 45% { opacity: 1; }
+					50%, 95% { opacity: 0; }
+					100% { opacity: 1; }
+				}
+				.link-cursor { animation: link-blink 1s steps(1) infinite; }
+				@media (prefers-reduced-motion: reduce) {
+					.link-cursor { animation: none; }
+				}
+			`}</style>
+
+								<span className="text-[#B8862F] group-hover:text-[#FFB000]">❯</span>
+								<span>portfolio_terminal</span>
+								<span className="link-cursor h-[15px] w-[7px] bg-[#FFB000] group-hover:bg-[#FFD27A]" />
 							</Link>
 						</div>
 					</div>
