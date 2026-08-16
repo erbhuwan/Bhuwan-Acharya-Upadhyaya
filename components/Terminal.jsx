@@ -318,6 +318,8 @@ export function TerminalPortfolio() {
 		}
 	}, [lines]);
 
+	const focusInput = () => inputRef.current?.focus();
+
 	const pushLines = (newLines) => {
 		setLines((prev) => [...prev, ...newLines.map((l) => ({ ...l, id: nextId() }))]);
 	};
