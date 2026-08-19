@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { LazyMotion, domAnimation, useInView } from "framer-motion";
+import { LazyMotion, domAnimation, useInView, AnimatePresence, motion } from "framer-motion";
 import { WelcomeAnimation } from "./IntroAnimation";
 import { FiExternalLink } from "react-icons/fi";
 
@@ -10,8 +10,8 @@ export function WelcomeSection() {
 	const introRef = useRef(null);
 	const isInView = useInView(introRef, { once: true });
 
-	let [count, setCount] = useState(0);
-	const [text] = useState([
+	const [count, setCount] = useState(0);
+	const text = [
 		"build full-stack web applications",
 		"develop modern interfaces with React",
 		"build scalable backends with Node.js",
@@ -19,19 +19,19 @@ export function WelcomeSection() {
 		"work with SQL and NoSQL databases",
 		"integrate third-party services and payments",
 		"deploy production-ready web applications"
-	]);
+	];
 
 	useEffect(() => {
-		let interval = setInterval(() => {
-			setCount(count + 1);
-
-			if (count === 3) {
-				setCount(0);
-			}
-		}, 2000);
+		const interval = setInterval(() => {
+			setCount((prev) => (prev + 1) % text.length);
+		}, 2500);
 
 		return () => clearInterval(interval);
-	}, [count]);
+	}, [text.length]);
+
+	const currentItem = text[count];
+	const firstWord = currentItem.split(" ")[0];
+	const restWords = currentItem.split(" ").slice(1).join(" ");
 
 	return (
 		<LazyMotion features={domAnimation}>
@@ -52,36 +52,28 @@ export function WelcomeSection() {
 							</p>
 						</h1>
 
-						<div className="mt-3 relative flex flex-col overflow-hidden h-[32px] md:h-[40px]">
+						<div className="mt-3 flex items-center min-h-[36px] sm:min-h-[40px] md:min-h-[44px]">
 							<p
-								className="text-[17px] md:text-2xl transform-none opacity-100"
+								className="text-[17px] md:text-2xl flex flex-wrap items-center gap-x-1.5"
 								style={{
 									transform: isInView ? "none" : "translateX(-200px)",
 									opacity: isInView ? 1 : 0,
 									transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
 								}}
 							>
-								I
-								<span
-									className="absolute flex flex-col transition-all duration-500 ease-in-expo w-full"
-									style={{
-										top:
-											count === 0
-												? "0"
-												: count === 1
-												? "-100%"
-												: count === 2
-												? "-200%"
-												: count === 3
-												? "-300%"
-												: "0",
-										left: "13px"
-									}}
-								>
-									{text.map((element) => (
-										<TextElement key={element} element={element} />
-									))}
-								</span>
+								<span>I</span>
+								<AnimatePresence mode="wait">
+									<motion.span
+										key={count}
+										initial={{ opacity: 0, y: 10 }}
+										animate={{ opacity: 1, y: 0 }}
+										exit={{ opacity: 0, y: -10 }}
+										transition={{ duration: 0.3, ease: [0.17, 0.55, 0.55, 1] }}
+										className="inline-block"
+									>
+										<b>{firstWord}</b> <span>{restWords}</span>
+									</motion.span>
+								</AnimatePresence>
 							</p>
 						</div>
 
@@ -169,27 +161,5 @@ export function WelcomeSection() {
 				</div>
 			</section>
 		</LazyMotion>
-	);
-}
-
-function TextElement({ element }) {
-	const firstWord = <b>{element.split(" ").at(0)}</b>;
-	const restWords = element.split(" ").slice(1).join(" ");
-	const ref = useRef(null);
-	const isInView = useInView(ref, { once: true });
-
-	return (
-		<span
-			tabIndex="0"
-			ref={ref}
-			className="text-[17px] md:text-2xl"
-			style={{
-				transform: isInView ? "none" : "translateX(-200px)",
-				opacity: isInView ? 1 : 0,
-				transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
-			}}
-		>
-			{firstWord} {restWords}
-		</span>
 	);
 }
