@@ -4,15 +4,11 @@ import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { LazyMotion, domAnimation, useInView } from "framer-motion";
 import { WelcomeAnimation } from "./IntroAnimation";
-import { useScrollTo } from "hooks";
-import { useMediaQuery } from "utils";
 import { FiExternalLink } from "react-icons/fi";
 
 export function WelcomeSection() {
-	const ref = useRef(null);
 	const introRef = useRef(null);
-	const isInView = useInView(ref, { once: true });
-	const isTabletUp = useMediaQuery("min-width: 768px");
+	const isInView = useInView(introRef, { once: true });
 
 	let [count, setCount] = useState(0);
 	const [text] = useState([
@@ -39,12 +35,11 @@ export function WelcomeSection() {
 
 	return (
 		<LazyMotion features={domAnimation}>
-			<section id="intro" className="section" ref={introRef}>
-				<div className="grid grid-cols-1 md:grid-cols-[1fr_0.5fr] lg:grid-cols-[1fr_0.7fr] gap-4 items-center">
+			<section id="intro" className="section min-h-[calc(100vh-5rem)] flex items-center" ref={introRef}>
+				<div className="grid grid-cols-1 md:grid-cols-[1fr_0.5fr] lg:grid-cols-[1fr_0.7fr] gap-4 items-center w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[650px]">
 					<div className="py-5 md:py-10">
 						<h1
 							tabIndex="0"
-							ref={ref}
 							className="text-3xl md:text-5xl xl:text-6xl font-bold"
 							style={{
 								transform: isInView ? "none" : "translateX(-200px)",
@@ -57,9 +52,8 @@ export function WelcomeSection() {
 							</p>
 						</h1>
 
-						<div className="mt-3 relative flex flex-col overflow-hidden">
+						<div className="mt-3 relative flex flex-col overflow-hidden h-[32px] md:h-[40px]">
 							<p
-								ref={ref}
 								className="text-[17px] md:text-2xl transform-none opacity-100"
 								style={{
 									transform: isInView ? "none" : "translateX(-200px)",
@@ -93,7 +87,6 @@ export function WelcomeSection() {
 
 						<p
 							tabIndex="0"
-							ref={ref}
 							className="mt-3 mb-10 text-gray-500 text-xl"
 							style={{
 								transform: isInView ? "none" : "translateX(-200px)",
@@ -105,7 +98,6 @@ export function WelcomeSection() {
 						</p>
 						<div
 							className="my-2"
-							ref={ref}
 							style={{
 								transform: isInView ? "none" : "translateY(50px)",
 								opacity: isInView ? 1 : 0,
@@ -123,7 +115,6 @@ export function WelcomeSection() {
 							</Link>
 						</div>
 						<div
-							ref={ref}
 							style={{
 								transform: isInView ? "none" : "translateY(50px)",
 								opacity: isInView ? 1 : 0,
@@ -138,6 +129,10 @@ export function WelcomeSection() {
 										behavior: "smooth",
 										block: "start"
 									});
+									setTimeout(() => {
+										const input = document.getElementById("terminal-input");
+										input?.focus({ preventScroll: true });
+									}, 350);
 								}}
 								aria-label="Portfolio Terminal"
 								className="
@@ -168,7 +163,9 @@ export function WelcomeSection() {
 						</div>
 					</div>
 
-					{isTabletUp && <WelcomeAnimation />}
+					<div className="hidden md:flex items-center justify-center">
+						<WelcomeAnimation />
+					</div>
 				</div>
 			</section>
 		</LazyMotion>

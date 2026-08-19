@@ -1,8 +1,3 @@
-"use client";
-
-import { useRef } from "react";
-import { LazyMotion, domAnimation, useInView } from "framer-motion";
-
 const TimeLineData = [
 	{
 		period: "2019",
@@ -55,101 +50,87 @@ const TimeLineData = [
 ];
 
 export function TimeLine() {
-	const ref = useRef(null);
-	const isInView = useInView(ref, { once: true, margin: "-100px" });
-
 	return (
-		<LazyMotion features={domAnimation}>
-			<div ref={ref} className="relative py-8">
-				{/* Timeline line */}
-				<div
-					className="
-						absolute
-						left-[11px]
-						top-0
-						bottom-0
-						w-px
-						bg-current
-						opacity-20
-						md:left-1/2
-						md:-translate-x-1/2
-					"
-				/>
+		<div className="relative py-8">
+			{/* Timeline line */}
+			<div
+				className="
+					absolute
+					left-[11px]
+					top-0
+					bottom-0
+					w-px
+					bg-current
+					opacity-20
+					md:left-1/2
+					md:-translate-x-1/2
+				"
+			/>
 
-				<div className="flex flex-col gap-12 md:gap-20">
-					{TimeLineData.map((item, index) => {
-						const isLeft = index % 2 === 0;
+			<div className="flex flex-col gap-12 md:gap-20">
+				{TimeLineData.map((item, index) => {
+					const isLeft = index % 2 === 0;
 
-						return (
+					return (
+						<div
+							key={item.period}
+							className={`
+								relative
+								flex
+								items-start
+								pl-10
+								md:pl-0
+								md:w-full
+								${isLeft ? "md:justify-start" : "md:justify-end"}
+							`}
+						>
+							{/* Timeline dot */}
 							<div
-								key={item.period}
-								className={`
-									relative
+								className="
+									absolute
+									left-0
+									top-2
 									flex
-									items-start
-									pl-10
-									md:pl-0
-									md:w-full
-									${isLeft ? "md:justify-start" : "md:justify-end"}
-								`}
-								style={{
-									transform: isInView
-										? "none"
-										: `translateY(40px)`,
-									opacity: isInView ? 1 : 0,
-									transition:
-										"all 0.7s cubic-bezier(0.17, 0.55, 0.55, 1)",
-									transitionDelay: `${index * 0.12}s`
-								}}
+									h-6
+									w-6
+									items-center
+									justify-center
+									rounded-full
+									border
+									border-current
+									bg-background
+									md:left-1/2
+									md:-translate-x-1/2
+									z-1
+								"
 							>
-								{/* Timeline dot */}
-								<div
-									className="
-										absolute
-										left-0
-										top-2
-										flex
-										h-6
-										w-6
-										items-center
-										justify-center
-										rounded-full
-										border
-										border-current
-										bg-background
-										md:left-1/2
-										md:-translate-x-1/2
-										z-1
-									"
-								>
-									<div className="h-2 w-2 rounded-full bg-current" />
-								</div>
-
-								{/* Content */}
-								<div
-									className={`
-										w-full
-										md:w-[42%]
-										${isLeft ? "md:text-right" : "md:text-left"}
-									`}
-								>
-									<span className="text-sm font-semibold tracking-widest opacity-50">
-										{item.period}
-									</span>
-
-									<h3 className="mt-1 text-xl font-bold">
-										{item.title}
-									</h3>
-
-									<p className="mt-2 text-sm leading-relaxed opacity-65">
-										{item.description}
-									</p>
-								</div>
+								<div className="h-2 w-2 rounded-full bg-current" />
 							</div>
-						);
-					})}
-				</div>
+
+							{/* Content */}
+							<div
+								className={`
+									w-full
+									md:w-[42%]
+									${isLeft ? "md:text-right" : "md:text-left"}
+								`}
+							>
+								<span className="text-sm font-semibold tracking-widest opacity-50">
+									{item.period}
+								</span>
+
+								<h3 className="mt-1 text-xl font-bold">
+									{item.title}
+								</h3>
+
+								<p className="mt-2 text-sm leading-relaxed opacity-65">
+									{item.description}
+								</p>
+							</div>
+						</div>
+					);
+				})}
 			</div>
-		</LazyMotion>
+		</div>
 	);
 }

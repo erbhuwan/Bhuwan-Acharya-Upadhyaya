@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LazyMotion, domAnimation, m } from "framer-motion";
 import { useScrollTo } from "hooks";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { initial, animate, exit, transition } from "utils";
 import { MENU_OPTIONS, SITE_ROUTES, SITE_STRINGS } from "../constants";
 
 export function Menu({ onClick = () => {} }) {
@@ -21,7 +19,7 @@ export function Menu({ onClick = () => {} }) {
 	};
 
 	mainMenu = (
-		<m.nav initial={initial} animate={animate} exit={exit} transition={transition} role="menu">
+		<nav role="menu">
 			<ul className="flex justify-center gap-5 flex-col md:flex-row items-start md:items-center">
 				{MENU_OPTIONS.sort(sortAscending).map((menuItem) => (
 					<li key={menuItem.id}>
@@ -36,11 +34,11 @@ export function Menu({ onClick = () => {} }) {
 					</li>
 				))}
 			</ul>
-		</m.nav>
+		</nav>
 	);
 
 	backMenu = (
-		<m.div initial={initial} animate={animate} exit={exit} transition={transition}>
+		<div>
 			<Link
 				href={SITE_ROUTES.home}
 				title={SITE_STRINGS.backToMainPageTitle}
@@ -51,7 +49,7 @@ export function Menu({ onClick = () => {} }) {
 				</span>
 				{SITE_STRINGS.backToMainText}
 			</Link>
-		</m.div>
+		</div>
 	);
 
 	content = pathname === SITE_ROUTES.projects ? backMenu : mainMenu;
@@ -60,5 +58,5 @@ export function Menu({ onClick = () => {} }) {
 		return null;
 	}
 
-	return <LazyMotion features={domAnimation}>{content}</LazyMotion>;
+	return content;
 }

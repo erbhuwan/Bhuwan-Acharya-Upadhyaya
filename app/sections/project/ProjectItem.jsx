@@ -1,5 +1,4 @@
-import { Suspense, useRef } from "react";
-import { useInView } from "framer-motion";
+import { Suspense } from "react";
 import Link from "next/link";
 import ImageGallery from "react-image-gallery";
 import { Loader } from "components";
@@ -8,32 +7,21 @@ import { FiExternalLink } from "react-icons/fi";
 
 import "react-image-gallery/styles/css/image-gallery.css";
 
-export function ProjectItem({ project, index }) {
+export function ProjectItem({ project }) {
 	const { description, images, poster, liveUrl, repoUrl, stack, title } = project;
-	const cardRef = useRef(null);
-	const isInView = useInView(cardRef, { once: true });
 
 	const galleryImages = images?.map((img) => ({
 		original: img,
 		loading: "lazy"
 	}));
+
 	return (
-		<article
-			ref={cardRef}
-			className="flex flex-col rounded-lg bg-card-light dark:bg-card-dark"
-			style={{
-				transform: isInView
-					? "none"
-					: `${index === 0 ? "translateY(250px)" : `translateY(${200 / index}px)`}`,
-				opacity: isInView ? 1 : 0,
-				transition: `all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) ${index === 0 ? 0 : 25 * index}ms`
-			}}
-		>
+		<article className="flex flex-col rounded-lg bg-card-light dark:bg-card-dark">
 			<figure>
 				<div className="aspect-[12/9.2] w-full h-full">
 					<Suspense fallback={<Loader />}>
 						<ImageGallery
-							items={[{original: poster, loading: "eager"}, ...galleryImages || []]}
+							items={[{ original: poster, loading: "eager" }, ...(galleryImages || [])]}
 							thumbnailPosition="right"
 							showPlayButton={false}
 							showThumbnails={true}

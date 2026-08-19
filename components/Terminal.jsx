@@ -281,8 +281,46 @@ export function TerminalPortfolio() {
 
 	const scrollRef = useRef(null);
 	const inputRef = useRef(null);
+	const containerRef = useRef(null);
 
 	const prompt = `${PROFILE.handle}@${PROFILE.host} ❯`;
+
+	const focusInput = () => {
+		inputRef.current?.focus({ preventScroll: true });
+	};
+
+	/* Autofocus when scrolled into view or reached */
+	useEffect(() => {
+		const container = containerRef.current;
+		if (!container) return;
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						// Focus input when user scrolls / reaches terminal
+						setTimeout(() => {
+							inputRef.current?.focus({ preventScroll: true });
+						}, 150);
+					}
+				});
+			},
+			{ threshold: 0.25 }
+		);
+
+		observer.observe(container);
+		return () => observer.disconnect();
+	}, [booted]);
+
+	/* Autofocus as soon as boot completes if visible */
+	useEffect(() => {
+		if (booted) {
+			const rect = containerRef.current?.getBoundingClientRect();
+			if (rect && rect.top < window.innerHeight && rect.bottom > 0) {
+				inputRef.current?.focus({ preventScroll: true });
+			}
+		}
+	}, [booted]);
 
 	/* Boot sequence */
 	useEffect(() => {
@@ -317,8 +355,6 @@ export function TerminalPortfolio() {
 			scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
 		}
 	}, [lines]);
-
-	const focusInput = () => inputRef.current?.focus();
 
 	const pushLines = (newLines) => {
 		setLines((prev) => [...prev, ...newLines.map((l) => ({ ...l, id: nextId() }))]);
@@ -420,10 +456,13 @@ export function TerminalPortfolio() {
 
 	return (
 		<div
+			ref={containerRef}
+			onClick={focusInput}
 			className="
 				relative mx-auto w-full max-w-3xl overflow-hidden rounded-xl
 				border border-[#FFB000]/15 bg-[#0B0F0C]
 				shadow-[0_0_60px_-15px_rgba(255,176,0,0.25)]
+				cursor-text
 			"
 		>
 			<style>{`
@@ -461,7 +500,8 @@ export function TerminalPortfolio() {
 			{/* output */}
 			<div
 				ref={scrollRef}
-				className="relative z-20 h-[420px] overflow-y-auto px-4 py-4 font-mono text-[13px] leading-relaxed sm:text-sm"
+				onClick={focusInput}
+				className="relative z-20 h-[420px] overflow-y-auto px-4 py-4 font-mono text-[13px] leading-relaxed sm:text-sm cursor-text"
 			>
 				{lines.map((line) => (
 					<div key={line.id} className={`whitespace-pre-wrap ${lineColor[line.type]}`}>
@@ -475,9 +515,9 @@ export function TerminalPortfolio() {
 						<span className="shrink-0">{prompt}</span>
 						<span className="relative flex-1">
 							<input
+								id="terminal-input"
 								ref={inputRef}
 								value={input}
-								autoFocus
 								onChange={(e) => setInput(e.target.value)}
 								onKeyDown={handleKeyDown}
 								spellCheck={false}

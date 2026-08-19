@@ -3,16 +3,6 @@
 import { useEffect, useState } from "react";
 import { BsGrid } from "react-icons/bs";
 import { ConnectMedia, Menu } from "components";
-import {
-	animate,
-	animateMobile,
-	exit,
-	exitMobile,
-	initial,
-	initialMobile,
-	transition
-} from "utils";
-import { m, AnimatePresence, domAnimation, LazyMotion } from "framer-motion";
 import { IoMdClose } from "react-icons/io";
 
 export function MobileMenu() {
@@ -26,42 +16,33 @@ export function MobileMenu() {
 	}, [isOpen]);
 
 	return (
-		<LazyMotion features={domAnimation}>
-			<m.button
+		<>
+			<button
 				className="p-2"
 				onClick={onOpen}
 				title="Open menu"
-				initial={initial}
-				animate={animate}
-				exit={exit}
-				transition={transition}
+				aria-label="Open menu"
 			>
 				<BsGrid />
-			</m.button>
+			</button>
 
-			<AnimatePresence>
-				{isOpen && (
-					<m.div
-						className={`backdrop-blur-md fixed left-0 right-0 top-0 min-h-screen z-50`}
-						initial={initialMobile}
-						animate={animateMobile}
-						exit={exitMobile}
-					>
-						<header className="p-6 flex items-center justify-between border-b border-b-brand-light z-10">
-							<ConnectMedia />
-							<button
-								onClick={onClose}
-								className="w-10 h-10 inline-flex items-center justify-center"
-							>
-								<IoMdClose size="24" />
-							</button>
-						</header>
-						<div className="px-6 py-10">
-							<Menu onClick={onClose} />
-						</div>
-					</m.div>
-				)}
-			</AnimatePresence>
-		</LazyMotion>
+			{isOpen && (
+				<div className="backdrop-blur-md bg-background/95 fixed inset-0 min-h-screen z-50">
+					<header className="p-6 flex items-center justify-between border-b border-b-brand-light z-10">
+						<ConnectMedia />
+						<button
+							onClick={onClose}
+							className="w-10 h-10 inline-flex items-center justify-center"
+							aria-label="Close menu"
+						>
+							<IoMdClose size="24" />
+						</button>
+					</header>
+					<div className="px-6 py-10">
+						<Menu onClick={onClose} />
+					</div>
+				</div>
+			)}
+		</>
 	);
 }
