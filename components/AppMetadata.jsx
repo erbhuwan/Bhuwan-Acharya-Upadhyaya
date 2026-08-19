@@ -40,7 +40,7 @@ export const AppMetadata = {
 		siteName: siteName,
 		images: [
 			{
-				url: `${url}/og-image.jpg`,
+				url: `${url}/og-image.png`,
 				width: 1200,
 				height: 630,
 				alt: `${author} — Full-Stack Developer`
@@ -53,7 +53,7 @@ export const AppMetadata = {
 		card: "summary_large_image",
 		title: `${author} | Full-Stack Developer in Nepal`,
 		description: description,
-		images: [`${url}/og-image.jpg`]
+		images: [`${url}/og-image.png`]
 	}
 };
 
@@ -67,7 +67,7 @@ export const jsonLd = {
 			name: fullName,
 			alternateName: author,
 			url: url,
-			image: `${url}/og-image.jpg`,
+			image: `${url}/og-image.png`,
 			jobTitle: "Full-Stack Developer",
 			description: description,
 			address: {
